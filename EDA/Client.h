@@ -16,5 +16,7 @@ void add_client(Client** clients, int* num_clients, Client new_client);
 void remove_client(Client** clients, int* num_clients, int nif);
 void update_client(Client* clients, int num_clients, Client updated_client);
 Client* find_client(Client* clients, int num_clients, int nif);
+void client_to_string(Client* client, char* str);
+void print_client(Client* client);
 
 #endif // CLIENT_H

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "utils.h"
 #include "client.h"
+#define BUFFER_SIZE 1024
 
 // Adds a new client to the array of clients
 void add_client(Client** clients, int* num_clients, Client new_client) {
@@ -76,4 +77,19 @@ Client* find_client(Client* clients, int num_clients, int nif) {
     }
     // If no client is found, return NULL
     return NULL;
+}
+
+
+void client_to_string(Client* client, char* str) {
+    sprintf_s(str, BUFFER_SIZE, "%d,%s,%s,%.2f", client->nif, client->name, client->address, client->balance);
+}
+
+void print_client(Client* client) {
+    if (client == NULL) {
+        printf("Client not found.\n");
+    }
+    else {
+        printf("NIF: %d, Name: %s, Address: %s, Balance: %s\n",
+            client->nif, client->name, client->address, client->balance);
+    }
 }

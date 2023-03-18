@@ -134,6 +134,7 @@
     <ClCompile Include="Menu.c" />
     <ClCompile Include="Menu.h" />
     <ClCompile Include="MobilityDevice.c" />
+    <ClCompile Include="Seed.c" />
     <ClCompile Include="Utils.c" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +142,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="MobilityDevice.h" />
+    <ClInclude Include="Seed.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

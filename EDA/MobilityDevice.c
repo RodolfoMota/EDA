@@ -3,6 +3,7 @@
 #include <string.h>
 #include "utils.h"
 #include "mobilitydevice.h"
+#define BUFFER_SIZE 512
 
 // Adds a new mobility device to the array of devices
 void add_mobility_device(MobilityDevice** devices, int* device_count, MobilityDevice new_device) {
@@ -81,5 +82,19 @@ void list_mobility_devices(MobilityDevice* devices, int device_count) {
 	for (int i = 0; i < device_count; i++) {
 		printf("ID: %d, Type: %s, Battery: %.2f%%, Cost: %.2f, Location: %s\n",
 			devices[i].id, devices[i].type, devices[i].battery_charge, devices[i].cost, devices[i].location);
+	}
+}
+
+void mobility_device_to_string(MobilityDevice* mobility_device, char* str) {
+	sprintf_s(str, BUFFER_SIZE, "%d,%s,%.2f,%.2f,%s", mobility_device->id, mobility_device->type, mobility_device->cost, mobility_device->battery_charge, mobility_device->location);
+}
+
+void print_mobility_device(MobilityDevice* device) {
+	if (device == NULL) {
+		printf("Device not found.\n");
+	}
+	else {
+		printf("ID: %d, Type: %s, Battery: %.2f%%, Cost: %.2f, Location: %s\n",
+			device->id, device->type, device->battery_charge, device->cost, device->location);
 	}
 }

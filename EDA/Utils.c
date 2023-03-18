@@ -10,6 +10,14 @@ void* realloc_safe(void* ptr, size_t size) {
     return new_ptr;
 }
 
+void* malloc_safe(size_t size) {
+    void* ptr = malloc(size);
+    if (ptr == NULL) {
+        fprintf(stderr, "Error: memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    return ptr;
+}
 
 void* realloc_safe_with_retry(void* ptr, size_t size, int retries, int delay) {
     void* new_ptr = NULL;
@@ -38,6 +46,9 @@ void save_data_to_binary_file(void* data, size_t elem_size, int num_elems, const
         return;
     }
 
+    // Add a print statement to check the number of elements being saved to the file
+    printf("Saving data to file '%s': %d elements\n", filename, num_elems);
+
     fwrite(&num_elems, sizeof(int), 1, file);
     fwrite(data, elem_size, num_elems, file);
 
@@ -48,14 +59,19 @@ void save_data_to_binary_file(void* data, size_t elem_size, int num_elems, const
 void* load_data_from_binary_file(size_t elem_size, int* num_elems, const char* filename) {
     FILE* file;
     errno_t err = fopen_s(&file, filename, "rb");
+
     if (err != 0 || file == NULL) {
-        fprintf(stderr, "Error: unable to open file '%s'\n", filename);
+        fprintf(stderr, "Warning: unable to open file '%s'. It may not exist.\n", filename);
+        *num_elems = 0;
         return NULL;
     }
 
     fread(num_elems, sizeof(int), 1, file);
 
-    void* data = malloc(*num_elems * elem_size);
+    // Add a print statement to check the number of elements read from the file
+    printf("Loading data from file '%s': %d elements\n", filename, *num_elems);
+
+    void* data = malloc_safe(*num_elems * elem_size);
     fread(data, elem_size, *num_elems, file);
 
     fclose(file);
@@ -102,3 +118,20 @@ void* load_data_from_text_file(size_t elem_size, int* num_elems, const char* fil
 
     return data;
 }
+
+
+void initialize_data_file(const char* filename) {
+    FILE* file;
+    errno_t err = fopen_s(&file, filename, "wb");
+
+    if (err != 0 || file == NULL) {
+        fprintf(stderr, "Error: unable to create file '%s'\n", filename);
+        return;
+    }
+
+    int num_elems = 0;
+    fwrite(&num_elems, sizeof(int), 1, file); // Write zero as the number of elements
+
+    fclose(file);
+}
+
