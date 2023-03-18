@@ -44,6 +44,7 @@ int main() {
 		display_menu();
 		user_choice = get_menu_choice();
 
+
 		switch (user_choice) {
 		case OPTION_ADD_MANAGER:
 		{

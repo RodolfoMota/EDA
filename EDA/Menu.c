@@ -1,7 +1,7 @@
 #include "menu.h"
 
 void display_menu() {
-    printf("\nMENU:\n");
+    printf("\n\nMENU:\n\n");
     printf("%d - Add manager\n", OPTION_ADD_MANAGER);
     printf("%d - Find a manager\n", OPTION_FIND_MANAGER);
     printf("%d - Remove a manager\n", OPTION_REMOVE_MANAGER);
@@ -19,12 +19,14 @@ void display_menu() {
     printf("%d - List mobility devices by geocode\n", OPTION_LIST_DEVICES_BY_GEOCODE);
     printf("%d - Register rental\n", OPTION_REGISTER_RENTAL);
     printf("%d - Manager Dashboard\n", OPTION_MANAGER_DASHBOARD);
-    printf("0.  Exit\n");
+    printf("0.  Exit\n\n");
     printf("Enter your choice: ");
 }
 
 MenuOption get_menu_choice() {
+    printf("\n");
     int choice;
     scanf_s("%d", &choice);
+    printf("\n");
     return (MenuOption)choice;
 }
