@@ -51,7 +51,7 @@ void input_client(Client* client) {
 	scanf_s(" %[^\n]", client->name, sizeof(client->name)); // Read a string containing spaces
 
 	printf("Enter client email: ");
-	scanf_s(" %[^\n]", client->address, sizeof(client->address));
+	scanf_s(" %[^\n]", client->email, sizeof(client->email));
 
 	printf("Enter client balance: ");
 	scanf_s("%lf", &client->balance);
@@ -83,14 +83,15 @@ void input_mobility_device(MobilityDevice* mobility_device) {
 	scanf_s(" %[^\n]", mobility_device->type, sizeof(mobility_device->type)); // Read a string containing spaces
 
 	printf("Enter device cost: ");
-	scanf_s("%lf", &mobility_device->cost);
+	scanf_s("%f", &mobility_device->cost); // Use %f for float variables
 
 	printf("Enter device battery charge: ");
-	scanf_s("%lf", &mobility_device->autonomy);
+	scanf_s("%f", &mobility_device->autonomy);
 
 	printf("Enter device geocode: ");
 	scanf_s(" %[^\n]", mobility_device->geocode, sizeof(mobility_device->geocode)); // Read a string containing spaces
 }
+
 
 int input_find_mobility_device_id(void) {
 	int device_id;

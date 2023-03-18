@@ -8,7 +8,7 @@ typedef struct {
     int nif;
     float balance;
     char name[100];
-    char address[200];
+    char email[200];
 } Client;
 
 // Function

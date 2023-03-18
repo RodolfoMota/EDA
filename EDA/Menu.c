@@ -18,6 +18,7 @@ void display_menu() {
     printf("%d - List mobility devices by descending autonomy\n", OPTION_LIST_DEVICES_BY_DESCENDING_AUTONOMY);
     printf("%d - List mobility devices by geocode\n", OPTION_LIST_DEVICES_BY_GEOCODE);
     printf("%d - Register rental\n", OPTION_REGISTER_RENTAL);
+    printf("%d - Manager Dashboard\n", OPTION_MANAGER_DASHBOARD);
     printf("0.  Exit\n");
     printf("Enter your choice: ");
 }

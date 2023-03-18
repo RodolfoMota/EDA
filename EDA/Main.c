@@ -145,12 +145,9 @@ int main() {
 		{
 			list_devices_by_descending_autonomy(devices, num_devices);
 			break;
-		}		
+		}
 		case OPTION_LIST_DEVICES_BY_GEOCODE:
 		{
-			/*const char* geocode_to_find = "apple.banana.cherry";
-			list_devices_by_geocode(devices, num_devices, geocode_to_find);*/
-
 			char* geocode_to_find = input_geocode();
 			list_devices_by_geocode(devices, num_devices, geocode_to_find);
 
@@ -159,19 +156,22 @@ int main() {
 		case OPTION_REGISTER_RENTAL:
 		{
 			Rental new_rental;
-			int valid_rental;
 
-			do {
-				input_rental(&new_rental);
-				valid_rental = validate_rental(clients, num_clients, devices, num_devices, rentals, num_rentals, &new_rental);
-
-				if (!valid_rental) {
-					printf("Invalid input, please try again.\n");
-				}
-			} while (!valid_rental);
-
-			add_rental(&rentals, &num_rentals, new_rental);
-			printf("Rental registered successfully.\n");
+			input_rental(&new_rental);
+			if (validate_rental(clients, num_clients, devices, num_devices, rentals, num_rentals, &new_rental)) {
+				add_rental(&rentals, &num_rentals, clients, num_clients, devices, num_devices, new_rental);
+				printf("Rental registered successfully.\n");
+			}
+			else {
+				printf("Invalid input, please try again.\n");
+			}
+		}
+		break;
+		case OPTION_MANAGER_DASHBOARD:
+		{
+			view_rental_history(rentals, num_rentals);
+			calculate_statistics(rentals, num_rentals, clients, num_clients, devices, num_devices);
+			validate_rental_data(rentals, num_rentals, clients, num_clients, devices, num_devices);
 		}
 		break;
 		case OPTION_EXIT:
@@ -195,6 +195,7 @@ int main() {
 	free(managers);
 	free(clients);
 	free(devices);
+	free(rentals);
 
 	return 0;
 }

@@ -81,7 +81,7 @@ Client* find_client(Client* clients, int num_clients, int nif) {
 
 
 void client_to_string(Client* client, char* str) {
-    sprintf_s(str, BUFFER_SIZE, "%d,%s,%s,%.2f", client->nif, client->name, client->address, client->balance);
+    sprintf_s(str, BUFFER_SIZE, "%d,%s,%s,%.2f", client->nif, client->name, client->email, client->balance);
 }
 
 void print_client(Client* client) {
@@ -91,6 +91,6 @@ void print_client(Client* client) {
     else {
         printf("Client found:\n");
         printf("NIF: %d, Name: %s, Address: %s, Balance: %s\n",
-            client->nif, client->name, client->address, client->balance);
+            client->nif, client->name, client->email, client->balance);
     }
 }
