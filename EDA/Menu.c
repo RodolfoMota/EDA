@@ -1,5 +1,14 @@
 #include "menu.h"
+/**
 
+@file menu.h
+@brief Functions related to the main menu of the program.
+*/
+
+/**
+
+@brief Displays the menu options available in the program.
+*/
 void display_menu() {
     printf("\n\nMENU:\n\n");
     printf("%d - Add manager\n", OPTION_ADD_MANAGER);
@@ -23,6 +32,11 @@ void display_menu() {
     printf("Enter your choice: ");
 }
 
+/**
+
+@brief Prompts the user to enter a menu option and returns the selected option.
+@return The selected menu option.
+*/
 MenuOption get_menu_choice() {
     printf("\n");
     int choice;

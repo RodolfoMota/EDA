@@ -4,9 +4,20 @@
 #include "utils.h"
 #include "mobilitydevice.h"
 #include <stdbool.h> // For the 'bool' type
+/**
+ * @file mobilitydevice.c
+ * @brief Functions for managing the fleet of mobility devices.
+ */
 
 
-// Adds a new mobility device to the array of devices
+
+/**
+ * @brief Adds a new mobility device to the array of devices.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param device_count Pointer to the number of devices in the array.
+ * @param new_device The new device to add.
+ */
 void add_mobility_device(MobilityDevice** devices, int* device_count, MobilityDevice new_device) {
 	// Increment the number of devices
 	(*device_count)++;
@@ -23,7 +34,13 @@ void add_mobility_device(MobilityDevice** devices, int* device_count, MobilityDe
 	(*devices)[*device_count - 1] = new_device;
 }
 
-// Removes a mobility device from the array of devices using its ID
+/**
+ * @brief Removes a mobility device from the array of devices using its ID.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param device_count Pointer to the number of devices in the array.
+ * @param device_id The ID of the device to remove.
+ */
 void remove_mobility_device(MobilityDevice** devices, int* device_count, int device_id) {
 	int found = 0;
 
@@ -51,7 +68,14 @@ void remove_mobility_device(MobilityDevice** devices, int* device_count, int dev
 	}
 }
 
-// Searches for a mobility device in the array using its ID and returns a pointer to the device
+/**
+ * @brief Searches for a mobility device in the array using its ID and returns a pointer to the device.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param device_count The number of devices in the array.
+ * @param device_id The ID of the device to find.
+ * @return Pointer to the matched mobility device, or NULL if no device is found.
+ */
 MobilityDevice* search_mobility_device(MobilityDevice* devices, int device_count, int device_id) {
 	// Iterate through the devices array
 	for (int i = 0; i < device_count; i++) {
@@ -64,7 +88,13 @@ MobilityDevice* search_mobility_device(MobilityDevice* devices, int device_count
 	return NULL;
 }
 
-// Updates a mobility device's information in the array using an updated device object
+/**
+ * @brief Updates a mobility device's information in the array using an updated device object.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param device_count The number of devices in the array.
+ * @param updated_device The updated device object.
+ */
 void update_mobility_device(MobilityDevice* devices, int device_count, MobilityDevice updated_device) {
 	// Find the device to update using its ID
 	MobilityDevice* device_to_update = search_mobility_device(devices, device_count, updated_device.id);
@@ -75,7 +105,12 @@ void update_mobility_device(MobilityDevice* devices, int device_count, MobilityD
 	}
 }
 
-// Lists all the mobility devices in the array with their details
+/**
+ * @brief Lists all the mobility devices in the array with their details.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param device_count The number of devices in the array.
+ */
 void list_mobility_devices(MobilityDevice* devices, int device_count) {
 	printf("\nList of Mobility Devices:\n");
 
@@ -86,7 +121,12 @@ void list_mobility_devices(MobilityDevice* devices, int device_count) {
 	}
 }
 
-
+/**
+ * @brief Lists all the mobility devices in the array by descending autonomy.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param num_devices The number of devices in the array.
+ */
 void list_devices_by_descending_autonomy(MobilityDevice* devices, int num_devices) {
 	// Sort the devices by descending autonomy using Bubble Sort
 	bool swapped;
@@ -109,6 +149,11 @@ void list_devices_by_descending_autonomy(MobilityDevice* devices, int num_device
 	}
 }
 
+/**
+ * @brief Prints the details of a mobility device.
+ *
+ * @param device Pointer to the mobility device to print.
+ */
 void print_mobility_device(MobilityDevice* device) {
 	if (device == NULL) {
 		printf("Device not found.\n");
@@ -120,6 +165,13 @@ void print_mobility_device(MobilityDevice* device) {
 	}
 }
 
+/**
+ * @brief Lists all the mobility devices in the array with a specific geocode.
+ *
+ * @param devices Pointer to the array of devices.
+ * @param num_devices The number of devices in the array.
+ * @param geocode The geocode to search for.
+ */
 void list_devices_by_geocode(MobilityDevice* devices, int num_devices, const char* geocode) {
 	printf("Mobility devices with geocode: %s\n", geocode);
 	printf("ID\tName\tAutonomy\tRented\n");

@@ -4,7 +4,13 @@
 #include "utils.h"
 #include "manager.h"
 
-// Adds a new manager to the array of managers
+/**
+
+@brief Adds a new manager to the array of managers.
+@param managers Pointer to the array of managers.
+@param num_managers Pointer to the number of managers in the array.
+@param new_manager The new manager to be added.
+*/
 void add_manager(Manager** managers, int* num_managers, Manager new_manager) {
 
 	// Resize the managers array to accommodate the new manager
@@ -22,7 +28,13 @@ void add_manager(Manager** managers, int* num_managers, Manager new_manager) {
 	(*num_managers)++;
 }
 
-// Removes a manager from the array of managers using their ID
+/**
+
+@brief Removes a manager from the array of managers using their ID.
+@param managers Pointer to the array of managers.
+@param num_managers Pointer to the number of managers in the array.
+@param id The ID of the manager to be removed.
+*/
 void remove_manager(Manager** managers, int* num_managers, int id) {
 	// Iterate through the managers array
 	for (int i = 0; i < *num_managers; i++) {
@@ -50,7 +62,13 @@ void remove_manager(Manager** managers, int* num_managers, int id) {
 	}
 }
 
-// Updates an existing manager in the array of managers
+/**
+
+@brief Updates an existing manager in the array of managers.
+@param managers The array of managers.
+@param num_managers The number of managers in the array.
+@param updated_manager The updated manager.
+*/
 void update_manager(Manager* managers, int num_managers, Manager updated_manager
 ) {
 	// Iterate through the managers array
@@ -66,7 +84,14 @@ void update_manager(Manager* managers, int num_managers, Manager updated_manager
 	}
 }
 
-// Finds a manager in the array of managers using their ID and returns a pointer to the manager
+/**
+
+@brief Finds a manager in the array of managers using their ID and returns a pointer to the manager.
+@param managers The array of managers.
+@param num_managers The number of managers in the array.
+@param id The ID of the manager to be found.
+@return A pointer to the matched manager or NULL if no manager is found.
+*/
 Manager* find_manager(Manager* managers, int num_managers, int id) {
 	// Iterate through the managers array
 	for (int i = 0; i < num_managers; i++) {
@@ -80,7 +105,12 @@ Manager* find_manager(Manager* managers, int num_managers, int id) {
 	return NULL;
 }
 
+/**
 
+@brief Displays the rental history.
+@param rentals The array of rentals.
+@param num_rentals The number of rentals in the array.
+*/
 void view_rental_history(Rental* rentals, int num_rentals) {
 	printf("\nRental History:\n");
 	printf("ID | Client NIF | Device ID | Rental Duration (min)\n");
@@ -89,6 +119,16 @@ void view_rental_history(Rental* rentals, int num_rentals) {
 	}
 }
 
+/**
+
+@brief Calculates and displays rental and device statistics.
+@param rentals The array of rentals.
+@param num_rentals The number of rentals in the array.
+@param clients The array of clients.
+@param num_clients The number of clients in the array.
+@param devices The array of devices.
+@param num_devices The number of devices in the array.
+*/
 void calculate_statistics(Rental* rentals, int num_rentals, Client* clients, int num_clients, MobilityDevice* devices, int num_devices) {
 	int total_rentals = num_rentals;
 	int total_clients = num_clients;
@@ -108,6 +148,16 @@ void calculate_statistics(Rental* rentals, int num_rentals, Client* clients, int
 	printf("Rented devices: %d\n", rented_devices);
 }
 
+/**
+
+@brief Validates rental data and displays any invalid rentals found.
+@param rentals The array of rentals.
+@param num_rentals The number of rentals in the array.
+@param clients The array of clients.
+@param num_clients The number of clients in the array.
+@param devices The array of devices.
+@param num_devices The number of devices in the array.
+*/
 void validate_rental_data(Rental* rentals, int num_rentals, Client* clients, int num_clients, MobilityDevice* devices, int num_devices) {
 	printf("\nValidating rental data...\n");
 

@@ -5,6 +5,12 @@
 #include "menu.h"
 #include "input.h"
 
+/**
+
+@file main.c
+@brief Main function with menu for managing rentals of mobility devices.
+*/
+
 //project /
 //│
 //├── Source Files /
@@ -20,10 +26,26 @@
 //├── mobilitydevice.h
 //└── utils.h
 
+
+/**
+@brief Initializes and loads the data from binary files, and initializes the files if they do not exist.
+@param managers Pointer to an array of managers.
+@param num_managers Pointer to the number of managers in the array.
+@param clients Pointer to an array of clients.
+@param num_clients Pointer to the number of clients in the array.
+@param devices Pointer to an array of mobility devices.
+@param num_devices Pointer to the number of mobility devices in the array.
+@param rentals Pointer to an array of rentals.
+@param num_rentals Pointer to the number of rentals in the array.
+*/
 void initialize_and_load_data(Manager** managers, int* num_managers, Client** clients, int* num_clients, MobilityDevice** devices, int* num_devices, Rental** rentals, int* num_rentals);
 
+/**
 
-// Main function with menu
+@brief Main function with menu for managing rentals of mobility devices.
+
+@return int Exit code.
+*/
 int main() {
 
 	// Declare pointers for the arrays and their counts
