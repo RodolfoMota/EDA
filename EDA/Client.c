@@ -89,6 +89,7 @@ void print_client(Client* client) {
         printf("Client not found.\n");
     }
     else {
+        printf("Client found:\n");
         printf("NIF: %d, Name: %s, Address: %s, Balance: %s\n",
             client->nif, client->name, client->address, client->balance);
     }

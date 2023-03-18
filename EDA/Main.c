@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "menu.h"
 #include "input.h"
-#include "seed.h"
 
 //project /
 //│
@@ -21,7 +20,7 @@
 //├── mobilitydevice.h
 //└── utils.h
 
-void initialize_and_load_data(Manager** managers, int* num_managers, Client** clients, int* num_clients, MobilityDevice** devices, int* num_devices);
+void initialize_and_load_data(Manager** managers, int* num_managers, Client** clients, int* num_clients, MobilityDevice** devices, int* num_devices, Rental** rentals, int* num_rentals);
 
 
 // Main function with menu
@@ -31,12 +30,13 @@ int main() {
 	Manager* managers = NULL;
 	Client* clients = NULL;
 	MobilityDevice* devices = NULL;
+	Rental* rentals = NULL;
 
-	int num_managers, num_clients, num_devices = 0;
+	int num_managers, num_clients, num_rentals, num_devices = 0;
 
 
 	// Initialize and load data
-	initialize_and_load_data(&managers, &num_managers, &clients, &num_clients, &devices, &num_devices);
+	initialize_and_load_data(&managers, &num_managers, &clients, &num_clients, &devices, &num_devices, &rentals, &num_rentals);
 
 
 	MenuOption user_choice;
@@ -54,25 +54,14 @@ int main() {
 		break;
 		case OPTION_FIND_MANAGER:
 		{
-			int manager_id;
-			printf("Enter the manager ID to search for: ");
-			scanf_s("%d", &manager_id);
+			int manager_id = input_find_manager_id();
 			Manager* found_manager = find_manager(managers, num_managers, manager_id);
-			if (found_manager != NULL) {
-				printf("Manager found: ID=%d, Name=%s, Position=%df\n",
-					found_manager->id, found_manager->name, found_manager->position);
-			}
-			else {
-				printf("Manager not found.\n");
-			}
+			print_manager(found_manager);
 		}
 		break;
 		case OPTION_REMOVE_MANAGER:
 		{
-			// Get the ID of the manager to remove
-			printf("Enter the ID of the manager to remove: ");
-			int id;
-			scanf_s("%d", &id);
+			int id = input_remove_manager_id();
 			remove_manager(&managers, &num_managers, id);
 			printf("Manager removed.\n");
 			break;
@@ -96,24 +85,14 @@ int main() {
 		break;
 		case OPTION_FIND_CLIENT:
 		{
-			printf("Enter the NIF of the client to find: ");
-			int nif;
-			scanf_s("%d", &nif);
+			int nif = input_find_client_nif();
 			Client* found_client = find_client(clients, num_clients, nif);
-			if (found_client != NULL) {
-				printf("Client found:\n");
-				print_client(found_client);
-			}
-			else {
-				printf("Client not found.\n");
-			}
+			print_client(found_client);
 			break;
 		}
 		case OPTION_REMOVE_CLIENT:
 		{
-			printf("Enter the NIF of the client to remove: ");
-			int nif;
-			scanf_s("%d", &nif);
+			int nif = input_remove_client_nif();
 			remove_client(&clients, &num_clients, nif);
 			printf("Client removed.\n");
 			break;
@@ -136,24 +115,14 @@ int main() {
 		break;
 		case OPTION_FIND_MOBILITY_DEVICE:
 		{
-			printf("Enter the ID of the mobility device to find: ");
-			int device_id;
-			scanf_s("%d", &device_id);
+			int device_id = input_find_mobility_device_id();
 			MobilityDevice* found_device = search_mobility_device(devices, num_devices, device_id);
-			if (found_device != NULL) {
-				printf("Mobility device found:\n");
-				print_mobility_device(found_device);
-			}
-			else {
-				printf("Mobility device not found.\n");
-			}
+			print_mobility_device(found_device);
 			break;
 		}
 		case OPTION_REMOVE_MOBILITY_DEVICE:
 		{
-			printf("Enter the ID of the mobility device to remove: ");
-			int device_id;
-			scanf_s("%d", &device_id);
+			int device_id = input_remove_mobility_device_id();
 			remove_mobility_device(&devices, &num_devices, device_id);
 			printf("Mobility device removed.\n");
 			break;
@@ -172,7 +141,39 @@ int main() {
 			list_mobility_devices(devices, num_devices);
 			break;
 		}
-		
+		case OPTION_LIST_DEVICES_BY_DESCENDING_AUTONOMY:
+		{
+			list_devices_by_descending_autonomy(devices, num_devices);
+			break;
+		}		
+		case OPTION_LIST_DEVICES_BY_GEOCODE:
+		{
+			/*const char* geocode_to_find = "apple.banana.cherry";
+			list_devices_by_geocode(devices, num_devices, geocode_to_find);*/
+
+			char* geocode_to_find = input_geocode();
+			list_devices_by_geocode(devices, num_devices, geocode_to_find);
+
+			break;
+		}
+		case OPTION_REGISTER_RENTAL:
+		{
+			Rental new_rental;
+			int valid_rental;
+
+			do {
+				input_rental(&new_rental);
+				valid_rental = validate_rental(clients, num_clients, devices, num_devices, rentals, num_rentals, &new_rental);
+
+				if (!valid_rental) {
+					printf("Invalid input, please try again.\n");
+				}
+			} while (!valid_rental);
+
+			add_rental(&rentals, &num_rentals, new_rental);
+			printf("Rental registered successfully.\n");
+		}
+		break;
 		case OPTION_EXIT:
 			printf("Exiting...\n");
 			break;
@@ -187,6 +188,7 @@ int main() {
 	save_data_to_binary_file(managers, sizeof(Manager), num_managers, "managers.bin");
 	save_data_to_binary_file(clients, sizeof(Client), num_clients, "clients.bin");
 	save_data_to_binary_file(devices, sizeof(MobilityDevice), num_devices, "devices.bin");
+	save_data_to_binary_file(rentals, sizeof(Rental), num_rentals, "rentals.bin");
 
 
 	// Free the memory allocated for the original and loaded data
@@ -197,11 +199,12 @@ int main() {
 	return 0;
 }
 
-void initialize_and_load_data(Manager** managers, int* num_managers, Client** clients, int* num_clients, MobilityDevice** devices, int* num_devices) {
+void initialize_and_load_data(Manager** managers, int* num_managers, Client** clients, int* num_clients, MobilityDevice** devices, int* num_devices, Rental** rentals, int* num_rentals) {
 	// Load data from binary files
 	*managers = load_data_from_binary_file(sizeof(Manager), num_managers, "managers.bin");
 	*clients = load_data_from_binary_file(sizeof(Client), num_clients, "clients.bin");
 	*devices = load_data_from_binary_file(sizeof(MobilityDevice), num_devices, "devices.bin");
+	*rentals = load_data_from_binary_file(sizeof(Rental), num_rentals, "rentals.bin");
 
 	// Initialize data files if they do not exist
 	if (*managers == NULL) {
@@ -212,5 +215,8 @@ void initialize_and_load_data(Manager** managers, int* num_managers, Client** cl
 	}
 	if (*devices == NULL) {
 		initialize_data_file("devices.bin");
+	}
+	if (*rentals == NULL) {
+		initialize_data_file("rentals.bin");
 	}
 }

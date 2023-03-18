@@ -3,7 +3,8 @@
 #include <string.h>
 #include "utils.h"
 #include "mobilitydevice.h"
-#define BUFFER_SIZE 512
+#include <stdbool.h> // For the 'bool' type
+
 
 // Adds a new mobility device to the array of devices
 void add_mobility_device(MobilityDevice** devices, int* device_count, MobilityDevice new_device) {
@@ -81,12 +82,31 @@ void list_mobility_devices(MobilityDevice* devices, int device_count) {
 	// Iterate through the devices array and print each device's information
 	for (int i = 0; i < device_count; i++) {
 		printf("ID: %d, Type: %s, Battery: %.2f%%, Cost: %.2f, Location: %s\n",
-			devices[i].id, devices[i].type, devices[i].battery_charge, devices[i].cost, devices[i].location);
+			devices[i].id, devices[i].type, devices[i].autonomy, devices[i].cost, devices[i].geocode);
 	}
 }
 
-void mobility_device_to_string(MobilityDevice* mobility_device, char* str) {
-	sprintf_s(str, BUFFER_SIZE, "%d,%s,%.2f,%.2f,%s", mobility_device->id, mobility_device->type, mobility_device->cost, mobility_device->battery_charge, mobility_device->location);
+
+void list_devices_by_descending_autonomy(MobilityDevice* devices, int num_devices) {
+	// Sort the devices by descending autonomy using Bubble Sort
+	bool swapped;
+	do {
+		swapped = false;
+		for (int i = 0; i < num_devices - 1; i++) {
+			if (devices[i].autonomy < devices[i + 1].autonomy) {
+				MobilityDevice temp = devices[i];
+				devices[i] = devices[i + 1];
+				devices[i + 1] = temp;
+				swapped = true;
+			}
+		}
+	} while (swapped);
+
+	// Print the sorted devices
+	printf("Mobility devices sorted by descending autonomy:\n");
+	for (int i = 0; i < num_devices; i++) {
+		print_mobility_device(&devices[i]);
+	}
 }
 
 void print_mobility_device(MobilityDevice* device) {
@@ -94,7 +114,18 @@ void print_mobility_device(MobilityDevice* device) {
 		printf("Device not found.\n");
 	}
 	else {
+		printf("Mobility device found:\n");
 		printf("ID: %d, Type: %s, Battery: %.2f%%, Cost: %.2f, Location: %s\n",
-			device->id, device->type, device->battery_charge, device->cost, device->location);
+			device->id, device->type, device->autonomy, device->cost, device->geocode);
+	}
+}
+
+void list_devices_by_geocode(MobilityDevice* devices, int num_devices, const char* geocode) {
+	printf("Mobility devices with geocode: %s\n", geocode);
+	printf("ID\tName\tAutonomy\tRented\n");
+	for (int i = 0; i < num_devices; i++) {
+		if (strcmp(devices[i].geocode, geocode) == 0) {
+			printf("%d\t%s\t%.2f\t%d\n", devices[i].id, devices[i].type, devices[i].autonomy, devices[i].is_rented);
+		}
 	}
 }

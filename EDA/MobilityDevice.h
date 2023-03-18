@@ -6,9 +6,10 @@
 typedef struct {
     int id;
     char type[50];
-    float battery_charge;
+    float autonomy;
     float cost;
-    char location[20];
+    char geocode[20];
+    int is_rented;
 } MobilityDevice;
 
 // Functions
@@ -17,8 +18,9 @@ void remove_mobility_device(MobilityDevice** devices, int* device_count, int dev
 MobilityDevice* search_mobility_device(MobilityDevice* devices, int device_count, int device_id);
 void update_mobility_device(MobilityDevice* devices, int device_count, MobilityDevice updated_device);
 void list_mobility_devices(MobilityDevice* devices, int device_count);
-void mobility_device_to_string(MobilityDevice* mobility_device, char* str);
 void print_mobility_device(MobilityDevice* device);
+void list_devices_by_descending_autonomy(MobilityDevice* devices, int num_devices);
+void list_devices_by_geocode(MobilityDevice* devices, int num_devices, const char* geocode);
 
 
 #endif // MOBILITYDEVICE_H

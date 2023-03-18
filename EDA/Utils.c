@@ -109,7 +109,7 @@ void* load_data_from_text_file(size_t elem_size, int* num_elems, const char* fil
 
     fscanf_s(file, "%d\n", num_elems);
 
-    void* data = malloc(*num_elems * elem_size);
+    void* data = malloc_safe(*num_elems * elem_size);
     for (int i = 0; i < *num_elems; i++) {
         scan_func(file, (char*)data + i * elem_size);
     }

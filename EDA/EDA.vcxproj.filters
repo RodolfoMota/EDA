@@ -39,7 +39,7 @@
     <ClCompile Include="Input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Seed.c">
+    <ClCompile Include="Rental.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Seed.h">
+    <ClInclude Include="Rental.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

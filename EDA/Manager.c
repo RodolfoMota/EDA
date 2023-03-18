@@ -81,10 +81,3 @@ Manager* find_manager(Manager* managers, int num_managers, int id) {
 }
 
 
-void manager_to_string(FILE* file, Manager* manager) {
-	fprintf(file, "%d,%s,%s\n", manager->id, manager->name, manager->position);
-}
-
-void string_to_manager(FILE* file, Manager* manager) {
-	fscanf_s(file, "%d,%[^,],%[^\n]\n", &manager->id, manager->name, sizeof(manager->name), manager->position, sizeof(manager->position));
-}
